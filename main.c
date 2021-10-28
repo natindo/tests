@@ -12,7 +12,7 @@ int main(void) {
             quickSort();
             break;
         default:
-            printf("invalid value");
+            printf("invalid value\n");
             break;
     }
     return 0;
