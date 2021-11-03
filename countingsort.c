@@ -1,44 +1,59 @@
 #include "utils.h"
 
-#define SIZE 100000
+#define SIZE 20
 
-void methodOfCalculationCountingSortOfCalculation(long int n, long int arr[], long int sortedArr[]) {
-    long int k;
-    for (long int i = 0; i < n; i++) {
-        k = 0;
-        for (long int j = 0; j < n; j++) {
-            if (arr[i] > arr[j]) {
-                k++;
-            }
+int DAE(long int a[], long int n) {
+   int i, j, count = 1;
+
+    for (i = 1; i < n; i++) {
+        for (j = 0; j < i; j++) {
+            if (a[i] == a[j])
+                break;
         }
-        sortedArr[k] = arr[i];
+      if (i == j)
+         count++;
+    }
+   return count;
+}
+
+void methodOfCalculationCountingSort(long int lenght, long int arr[], long int helpArr[]) {
+    for (size_t i = 0; i < lenght; i++) {
+        helpArr[arr[i]]++;
+        arr[i] = 0;
+    }
+
+    int NumberInArray = 0;
+    for (size_t i = 0; i < lenght; i++) {
+        int temp = i;
+        while(helpArr[temp]) {
+            arr[NumberInArray] = temp;
+            NumberInArray++;
+            helpArr[temp]--;
+        }
     }
 }
 
 int countingSort(void) {
-    //выделение памяти под массивы
-    long int *arr, *sortedArr;
+    long int *arr, *helpArr; //выделение памяти под массивы
     
-    arr = (long int *)malloc(SIZE * sizeof(int));
-    sortedArr = (long int *)malloc(SIZE * sizeof(int));
+    arr = (long int *)malloc(SIZE * sizeof(long int));
     
-    // Заполнение массива случайными числами
-    for (long int i = 0; i < SIZE; i++) {
-        arr[i] = rand() % 201 - 100;
+    for (long int i = 0; i < SIZE; i++) { // Заполнение массива случайными числами
+        arr[i] = rand() % 200;
     }
     
-    //сортировка методом подсчета
-    methodOfCalculationCountingSortOfCalculation(SIZE, arr, sortedArr);
+    int lenght = DAE(arr, SIZE);
+    helpArr = (long int *)calloc(lenght, sizeof(long int));
+
+    methodOfCalculationCountingSort(SIZE, arr, helpArr); //сортировка методом подсчета
     
-    // Вывод элементов массива после сортировки (использовать только для SIZE <50)
-    /*
-    for (int i = 0; i < SIZE; i++) {
-        printf("%d ", sortedArr[i]);
-    }
-     */
-    printf("\n");
-    //освобождение памяти
-    free(arr);
-    free(sortedArr);
+    // Вывод элементов массива после сортировки (использовать только для SIZE <20)
+    // printf("\n\n");
+    // for (int i = 0; i < SIZE; i++) {
+    //     printf("%ld ", arr[i]);
+    // }
+
+    free(arr); //освобождение памяти
+    free(helpArr);
     return 0;
 }
